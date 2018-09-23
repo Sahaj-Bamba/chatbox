@@ -13,12 +13,11 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Server implements Serializable{
-        // s tell if server is on or not 
     
     private boolean is_on ;
     public int port;
     public String name;
-    //public String IP;
+
     
     Server(int Port,String name){
         this.port = Port;
@@ -54,6 +53,7 @@ public class Server implements Serializable{
         WhoAmICalled = this.name;
         chatwindow.start();
         */
+
 //      enclose this in while loop for multiple clients handelling        
 
             try {
@@ -61,9 +61,12 @@ public class Server implements Serializable{
                 socket = serverSocket.accept();
                 
                // new Thread(new Listen(socket,this.name)).start();
+               
                 System.out.println("Server listen on.");
-               // new ChatWindow(socket).setVisible(true);
+               
+                // new ChatWindow(socket).setVisible(true);
                 //chatwindow.start(socket);
+                
                 String a[] =null;
                 new ChatWindow(socket).main(a);
                 

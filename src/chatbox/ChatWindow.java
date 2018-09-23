@@ -26,8 +26,9 @@ public class ChatWindow extends javax.swing.JFrame {
     
     public ChatWindow(Socket socket) {
         initComponents();
+
         this.socket = socket;
-        new Thread(new Listen(this.socket, "", this)).start();
+
     }
 
     /**
@@ -100,10 +101,17 @@ public class ChatWindow extends javax.swing.JFrame {
 
         try {
             System.out.println("Sending try");
-            out.writeObject(jTextField1.getText());
-            out.flush();
+            MSG x = new MSG();
+            x.txt = jTextField1.getText();
+
+            this.out.flush();
+            this.out.writeObject(x);
+            
+            this.out.flush();
+            jTextArea1.setText(jTextArea1.getText()+"\n"+jTextField1.getText());
             jTextField1.setText("");
             // TODO add your handling code here:
+        
         } catch (IOException ex) {
             Logger.getLogger(ChatWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -112,10 +120,22 @@ public class ChatWindow extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) 
+    public void main(String[] args) 
      {
     
-        /* Set the Nimbus look and feel */
+
+        try {
+            System.out.println("trying out stream create");
+            this.out=new ObjectOutputStream(socket.getOutputStream());
+            System.out.println("output stream created");
+            new Thread(new Listen(this.socket, "", this)).start();
+            System.out.println("listen in paralle");
+        } catch (IOException ex) {
+            Logger.getLogger(ChatWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+         
+         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
@@ -142,7 +162,8 @@ public class ChatWindow extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
            // private Socket socket;
             public void run() {
-                new ChatWindow(socket).setVisible(true);
+                
+            //new ChatWindow(socket).setVisible(true);
             }
         });
     }

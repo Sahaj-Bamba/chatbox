@@ -41,7 +41,8 @@ public class Client implements Serializable {
                // new Thread(new Listen(socket,this.name)).start();
                // System.out.println("Client created. ");
                // chatwindow.start(socket);
-               new ChatWindow(socket).setVisible(true);
+               String []a = null;
+               new ChatWindow(socket).main(a);
                   System.out.println("hreighoeh");     
                 
                 

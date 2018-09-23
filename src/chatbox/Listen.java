@@ -29,9 +29,11 @@ public class Listen implements Serializable,Runnable {
     Listen (Socket socket, String name, ChatWindow cw) {
         
         this.socket = socket;
-        chatWindow = cw;
+        this.chatWindow = cw;
         try {
+            System.out.println("in stream creation");
             in = new ObjectInputStream(socket.getInputStream());
+            System.out.println("in stream created");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -46,9 +48,11 @@ public class Listen implements Serializable,Runnable {
         
          while (true) {
             try {
-                Object txt = null;
+                MSG x = new MSG();
+                
+                String txt = null;
                 try {
-                    txt = in.readObject();
+                    x = (MSG) in.readObject();
                 } catch (ClassNotFoundException ex) {
                     Logger.getLogger(Listen.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -57,7 +61,7 @@ public class Listen implements Serializable,Runnable {
                 
                 //      What to do after message is received
                 
-                this.chatWindow.MessageReceived((String) txt);
+                this.chatWindow.MessageReceived(x.txt);
                 
             } catch (IOException e) {
                 e.printStackTrace();
